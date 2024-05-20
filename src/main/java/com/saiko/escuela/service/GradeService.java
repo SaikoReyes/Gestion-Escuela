@@ -4,14 +4,20 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.saiko.escuela.dto.GradeDTO;
 import com.saiko.escuela.entity.Grade;
 import com.saiko.escuela.repository.GradeRepository;
 
 @Service
 public class GradeService {
     
-    @Autowired
     private GradeRepository gradeRepository;
+
+    @Autowired
+    public GradeService(GradeRepository gradeRepository){
+        this.gradeRepository = gradeRepository;
+    }
 
     public List<Grade> getAllGrades(){
         return gradeRepository.findAll();
