@@ -39,6 +39,9 @@ public class StudentService {
     }
 
     public Optional<StudentDTO> updateStudent(Long id, StudentDTO studentDTO) {
+        if(studentDTO.getStudentId()==null){
+            throw new IllegalArgumentException("Student ID is required");
+        }
         return studentRepository.findById(id)
                 .map(existingStudent -> {
                     existingStudent.setStudentName(studentDTO.getStudentName());

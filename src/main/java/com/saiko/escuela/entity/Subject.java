@@ -23,7 +23,4 @@ public class Subject {
 
     @Column(name = "subject_name")
     private String subjectName;
-    
-    @OneToMany(mappedBy = "subject")
-    private List<Grade> grades;
 }

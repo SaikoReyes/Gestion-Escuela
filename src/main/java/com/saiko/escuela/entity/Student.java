@@ -35,7 +35,4 @@ public class Student {
 
     @Column(name = "average_grade")
     private double averageGrade;
-
-    @OneToMany(mappedBy = "student")
-    private List<Grade> grades;
 }

@@ -36,5 +36,15 @@ public class ExceptionHandlerController {
             .build());
     }
 
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<Object> handleIllegalArgumentException(IllegalArgumentException ex) {
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(ExceptionDTO.builder()
+            .error("Bad Request")
+            .message(ex.getMessage())
+            .status(HttpStatus.BAD_REQUEST.value())
+            .date(String.valueOf(new Date()))
+            .build());
+    }
+
 }
 

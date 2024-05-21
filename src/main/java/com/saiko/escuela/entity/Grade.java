@@ -1,13 +1,15 @@
 package com.saiko.escuela.entity;
 
+import java.util.Date;
+
 import jakarta.persistence.Column;
+import jakarta.persistence.EmbeddedId;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
+import jakarta.persistence.Temporal;
+import jakarta.persistence.TemporalType;
 import lombok.Data;
 
 
@@ -15,18 +17,21 @@ import lombok.Data;
 @Entity
 @Data
 public class Grade {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long gradeId;
+    @EmbeddedId
+    private GradeId gradeId;
     
     @ManyToOne
-    @JoinColumn(name = "student_id", referencedColumnName = "student_id")
+    @JoinColumn(name = "student_id", insertable = false, updatable = false)
     private Student student;
 
     @ManyToOne
-    @JoinColumn(name = "subject_id", referencedColumnName = "subject_id")
+    @JoinColumn(name = "subject_id", insertable = false, updatable = false)
     private Subject subject;
 
     @Column(name = "grade")
     private double grade;
+
+    @Temporal(TemporalType.TIMESTAMP)
+    @Column(name = "created_date")
+    private Date createdDate;
 }

@@ -48,6 +48,9 @@ public class SubjectService{
     }
 
     public Optional<SubjectDTO> updateSubject(Long id,SubjectDTO subjectDTO){
+        if(subjectDTO.getSubjectId()==null){
+            throw new IllegalArgumentException("Subject ID is required");
+        }
         return subjectRepository.findById(id)
         .map(existingSubject -> {
             existingSubject.setSubjectName(subjectDTO.getSubjectName());
