@@ -1,12 +1,20 @@
 package com.saiko.escuela.service;
 
 import com.saiko.escuela.dto.StudentDTO;
+import com.saiko.escuela.dto.StudentWithGrades;
+import com.saiko.escuela.entity.Grade;
 import com.saiko.escuela.entity.Student;
 import com.saiko.escuela.mapper.StudentMapper;
+import com.saiko.escuela.repository.StudentGradeRepository;
 import com.saiko.escuela.repository.StudentRepository;
+
+import lombok.RequiredArgsConstructor;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -16,10 +24,14 @@ public class StudentService {
 
     private final StudentRepository studentRepository;
 
+    private final StudentGradeRepository studentGradeRepository;
+
     @Autowired
-    public StudentService(StudentRepository studentRepository) {
+    public StudentService(StudentRepository studentRepository,StudentGradeRepository studentGradeRepository) {
+        this.studentGradeRepository = studentGradeRepository;
         this.studentRepository = studentRepository;
     }
+
 
     public StudentDTO saveStudent(StudentDTO studentDTO) {
         Student student = StudentMapper.toEntity(studentDTO);
@@ -61,4 +73,25 @@ public class StudentService {
         }
         else return false;
     }
+
+    public ResponseEntity<StudentWithGrades> getStudentsWithGrades(Long id){
+        Optional<Student> student = studentRepository.findById(id);
+        if(student.isPresent()){
+            Student studentData = student.get();
+            List<Grade> grades = studentGradeRepository.findGradesByStudent(studentData);
+            StudentWithGrades studentWithGrades = new StudentWithGrades(
+                    studentData.getStudentId(),
+                    studentData.getStudentName(),
+                    studentData.getStudentLastName(),
+                    studentData.getStudentEmail(),
+                    studentData.getStudentPhone(),
+                    studentData.getAverageGrade(),
+                    new Date(),
+                    grades
+                    );
+            return ResponseEntity.ok(studentWithGrades);
+        }
+        throw new IllegalArgumentException("Student not found with id: " + id);
+    }
+
 }

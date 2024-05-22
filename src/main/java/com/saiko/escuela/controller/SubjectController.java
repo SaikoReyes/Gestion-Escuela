@@ -54,4 +54,5 @@ public class SubjectController {
         .orElseThrow(() -> new NotFoundException("Subject not found"));
     }
     
+    
 }
