@@ -15,19 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
-
-
 @RestController
 @RequestMapping("/grade")
 public class GradeController {
 
-    private GradeService gradeService;
-
     @Autowired
-    public GradeController(GradeService gradeService){
-        this.gradeService = gradeService;
-    }
+    private GradeService gradeService;
 
     @GetMapping("/get-all")
     public ResponseEntity<List<Grade>> getAllGrades() {

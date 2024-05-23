@@ -4,11 +4,10 @@ import com.saiko.escuela.dto.StudentDTO;
 import com.saiko.escuela.dto.StudentWithGrades;
 import com.saiko.escuela.entity.Grade;
 import com.saiko.escuela.entity.Student;
+import com.saiko.escuela.exception.NotFoundException;
 import com.saiko.escuela.mapper.StudentMapper;
 import com.saiko.escuela.repository.StudentGradeRepository;
 import com.saiko.escuela.repository.StudentRepository;
-
-import lombok.RequiredArgsConstructor;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -26,6 +25,7 @@ public class StudentService {
 
     private final StudentGradeRepository studentGradeRepository;
 
+
     @Autowired
     public StudentService(StudentRepository studentRepository,StudentGradeRepository studentGradeRepository) {
         this.studentGradeRepository = studentGradeRepository;
@@ -33,45 +33,58 @@ public class StudentService {
     }
 
 
-    public StudentDTO saveStudent(StudentDTO studentDTO) {
+    public ResponseEntity<StudentDTO> saveStudent(StudentDTO studentDTO) {
         Student student = StudentMapper.toEntity(studentDTO);
         Student savedStudent = studentRepository.save(student);
-        return StudentMapper.toDTO(savedStudent);
+        return ResponseEntity.ok(StudentMapper.toDTO(savedStudent));
     }
 
-    public List<StudentDTO> getAllStudents() {
-        return studentRepository.findAll().stream()
+    public ResponseEntity<List<StudentDTO>> getAllStudents() {
+        if(!studentRepository.findAll().isEmpty()){
+            return ResponseEntity.ok(studentRepository.findAll().stream()
                 .map(StudentMapper::toDTO)
-                .collect(Collectors.toList());
-    }
-
-    public Optional<StudentDTO> getStudentById(Long id) {
-        return studentRepository.findById(id)
-                .map(StudentMapper::toDTO);
-    }
-
-    public Optional<StudentDTO> updateStudent(Long id, StudentDTO studentDTO) {
-        if(studentDTO.getStudentId()==null){
-            throw new IllegalArgumentException("Student ID is required");
+                .collect(Collectors.toList()));
         }
-        return studentRepository.findById(id)
+        else throw new NotFoundException("No students found");
+        
+    }
+
+    public ResponseEntity<Optional<StudentDTO>> getStudentById(Long id) {
+        Optional<Student> student = studentRepository.findById(id);
+        if(student.isPresent()){
+            return ResponseEntity.ok(studentRepository.findById(id)
+                .map(StudentMapper::toDTO));
+        }
+        else throw new IllegalArgumentException("Student not found with id: " + id);
+        
+    }
+
+    public ResponseEntity<Optional<StudentDTO>> updateStudent(Long id, StudentDTO studentDTO) {
+        Optional<Student> student = studentRepository.findById(id);
+        if(student.isPresent()){
+            return ResponseEntity.ok(studentRepository.findById(id)
                 .map(existingStudent -> {
                     existingStudent.setStudentName(studentDTO.getStudentName());
                     existingStudent.setStudentLastName(studentDTO.getStudentLastName());
                     existingStudent.setStudentEmail(studentDTO.getStudentEmail());
                     existingStudent.setStudentPhone(studentDTO.getStudentPhone());
-                    existingStudent.setAverageGrade(studentDTO.getAverageGrade());
                     Student updatedStudent = studentRepository.save(existingStudent);
                     return StudentMapper.toDTO(updatedStudent);
-                });
+                }));
+        }
+        else throw new NotFoundException("Student not found with id: " + id);
+        
     }
 
-    public boolean deleteStudent(Long id) {
-        if(studentRepository.existsById(id)){
+    public ResponseEntity<StudentDTO> deleteStudent(Long id) {
+        Optional<Student> student = studentRepository.findById(id);
+        if(student.isPresent()){
+            Optional<StudentDTO> studentDTO = studentRepository.findById(id)
+                .map(StudentMapper::toDTO);
             studentRepository.deleteById(id);
-            return true;
+            return ResponseEntity.ok(studentDTO.get());
         }
-        else return false;
+        else throw new NotFoundException("Student not found with id: " + id);
     }
 
     public ResponseEntity<StudentWithGrades> getStudentsWithGrades(Long id){
@@ -93,5 +106,4 @@ public class StudentService {
         }
         throw new IllegalArgumentException("Student not found with id: " + id);
     }
-
 }

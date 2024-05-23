@@ -9,20 +9,26 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
-import com.saiko.escuela.dto.StudentWithGrades;
 import com.saiko.escuela.entity.Grade;
 import com.saiko.escuela.entity.GradeId;
 import com.saiko.escuela.entity.Student;
 import com.saiko.escuela.repository.GradeRepository;
+import com.saiko.escuela.repository.StudentGradeRepository;
+import com.saiko.escuela.repository.StudentRepository;
+import com.saiko.escuela.utils.AverageGrade;
 
 @Service
 public class GradeService {
     
     private GradeRepository gradeRepository;
+    private StudentGradeRepository studentGradeRepository;
+    private StudentRepository studentRepository;
 
     @Autowired
-    public GradeService(GradeRepository gradeRepository){
+    public GradeService(GradeRepository gradeRepository, StudentGradeRepository studentGradeRepository, StudentRepository studentRepository){
         this.gradeRepository = gradeRepository;
+        this.studentGradeRepository = studentGradeRepository;
+        this.studentRepository = studentRepository;
     }
 
     public ResponseEntity<List<Grade>> getAllGrades(){
@@ -41,9 +47,24 @@ public class GradeService {
     }
 
     public ResponseEntity<Grade> saveGrade(Grade grade){
-        grade.setCreatedDate(new Date());
-        Grade savedGrade = gradeRepository.save(grade);
-        return ResponseEntity.ok(savedGrade);
+        Optional<Student> student = studentRepository.findById(grade.getStudent().getStudentId());
+        if(student.isPresent()){
+            if(studentGradeRepository.findGradesByStudent(student.get()).size()>0)
+            {
+                List<Grade> grades = studentGradeRepository.findGradesByStudent(student.get());
+                student.get().setAverageGrade(AverageGrade.calculateAverageWithNewGrade(grades,grade.getGrade()));
+                studentRepository.save(student.get());
+            }
+            else{
+                student.get().setAverageGrade(grade.getGrade());
+                studentRepository.save(student.get());
+            }
+            grade.setCreatedDate(new Date());
+            Grade savedGrade = gradeRepository.save(grade);
+            return ResponseEntity.ok(savedGrade);
+        }
+        throw new IllegalArgumentException("Student not found with id: " + grade.getStudent().getStudentId());
+        
     }
 
     public ResponseEntity<Grade> deleteGrade(GradeId id){

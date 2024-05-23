@@ -1,0 +1,448 @@
+{
+	"info": {
+		"_postman_id": "eb55d00e-429a-4cec-bcc9-814298d4b6fc",
+		"name": "gestion-escolar",
+		"description": "Endpoints for API",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "34406064"
+	},
+	"item": [
+		{
+			"name": "Students",
+			"item": [
+				{
+					"name": "get-all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/student/get-all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"student",
+								"get-all"
+							]
+						},
+						"description": "Get all students."
+					},
+					"response": []
+				},
+				{
+					"name": "save-student",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "    {\n        \"studentName\": \"Javier\",\n        \"studentLastName\": \"Lopex\",\n        \"studentEmail\": \"JavierLopez@example.com\",\n        \"studentPhone\": \"00000000000\"\n        \n    }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/student/save-student",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"student",
+								"save-student"
+							]
+						},
+						"description": "Create a new student."
+					},
+					"response": []
+				},
+				{
+					"name": "get-by-id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/student/get-by-id/2",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"student",
+								"get-by-id",
+								"2"
+							]
+						},
+						"description": "Get student by id."
+					},
+					"response": []
+				},
+				{
+					"name": "delete-student",
+					"request": {
+						"auth": {
+							"type": "inherit"
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/student/delete-student/3",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"student",
+								"delete-student",
+								"3"
+							]
+						},
+						"description": "Delete student by id."
+					},
+					"response": []
+				},
+				{
+					"name": "update-student",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"studentId\": 1,\n    \"studentName\": \"Javier\",\n    \"studentLastName\": \"Chabelo\",\n    \"studentEmail\": \"JavierLopez@example.com\",\n    \"studentPhone\": \"00000000000\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/student/update-student",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"student",
+								"update-student"
+							]
+						},
+						"description": "Update a student."
+					},
+					"response": []
+				},
+				{
+					"name": "get-student-grades",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/student/get-student-grades/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"student",
+								"get-student-grades",
+								"1"
+							]
+						},
+						"description": "Get all grades for a single student by id."
+					},
+					"response": []
+				}
+			],
+			"description": "Student API"
+		},
+		{
+			"name": "Subjects",
+			"item": [
+				{
+					"name": "get-all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/subject/get-all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"subject",
+								"get-all"
+							]
+						},
+						"description": "Get all subjects."
+					},
+					"response": []
+				},
+				{
+					"name": "get-by-id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/subject/get-by-id/1",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"subject",
+								"get-by-id",
+								"1"
+							]
+						},
+						"description": "Get subject by id."
+					},
+					"response": []
+				},
+				{
+					"name": "save-subject",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"subjectName\": \"ADO\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/subject/save-subject",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"subject",
+								"save-subject"
+							]
+						},
+						"description": "Create new subject."
+					},
+					"response": []
+				},
+				{
+					"name": "update-subject",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"subjectId\": \"4\",\n    \"subjectName\": \"ADOO\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/subject/update-subject",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"subject",
+								"update-subject"
+							]
+						},
+						"description": "Update an existing subject."
+					},
+					"response": []
+				},
+				{
+					"name": "delete-subject",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/subject/delete-subject/4",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"subject",
+								"delete-subject",
+								"4"
+							]
+						},
+						"description": "Delete a subject by id."
+					},
+					"response": []
+				}
+			],
+			"description": "Subject API"
+		},
+		{
+			"name": "Grades",
+			"item": [
+				{
+					"name": "save-grade",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"gradeId\": {\n        \"studentId\": 1,\n        \"subjectId\": 2\n    },\n    \"student\": {\n        \"studentId\": 1,\n        \"studentName\": \"Javier\",\n        \"studentLastName\": \"Lopex\",\n        \"studentEmail\": \"JavierLopez@example.com\",\n        \"studentPhone\": \"00000000000\",\n        \"averageGrade\": 0.0\n    },\n    \"subject\": {\n        \"subjectId\": 2,\n        \"subjectName\": \"Matemáticas\"\n    },  \n    \"grade\": 2\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/grade/save-grade",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"grade",
+								"save-grade"
+							]
+						},
+						"description": "Add a new grade for an existing subject to an existing student."
+					},
+					"response": []
+				},
+				{
+					"name": "get-all",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/grade/get-all",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"grade",
+								"get-all"
+							]
+						},
+						"description": "Get all grades."
+					},
+					"response": []
+				},
+				{
+					"name": "get-by-id",
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "\n{\n    \n        \"studentId\": 1,\n        \"subjectId\": 2\n    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/grade/get-by-id",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"grade",
+								"get-by-id"
+							]
+						},
+						"description": "get grade by id."
+					},
+					"response": []
+				},
+				{
+					"name": "delete-grade",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \n        \"studentId\": 1,\n        \"subjectId\": 2\n    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/grade/delete-grade",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"grade",
+								"delete-grade"
+							]
+						},
+						"description": "Delete a grade by id."
+					},
+					"response": []
+				},
+				{
+					"name": "update-grade",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"gradeId\": {\n        \"studentId\": 2,\n        \"subjectId\": 2\n    },\n    \"grade\": 5\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/grade/update-grade",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"grade",
+								"update-grade"
+							]
+						},
+						"description": "Update a grade."
+					},
+					"response": []
+				}
+			],
+			"description": "Grades API"
+		}
+	]
+}
